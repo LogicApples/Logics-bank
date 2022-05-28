@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+group 'org.logicapples'
+version '0.1'
+
+repositories {
+    // Standard Maven
+    mavenCentral()
+    maven {
+        url "https://repository.cloudera.com/artifactory/cloudera-repos/"
+    }
+}
+
+// Mimic Maven 'provided' configuration, as suggested in GRADLE-784
+configurations {
+    provided
+}
+
+dependencies {
+    provided 'org.apache.hadoop:hadoop-client:3.3.2'
+
+    implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'org.mongodb:mongodb-driver-sync:4.6.0'
+    implementation 'io.github.cdimascio:dotenv-java:2.2.3'
+
+    testImplementation 'junit:junit:4.13.2'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'org.logicapples.Bank'
+        )
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
